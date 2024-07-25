@@ -1,5 +1,6 @@
 ---
-version: "2.1"
+name: gateway
+
 services:
   swag:
     image: lscr.io/linuxserver/swag
@@ -9,13 +10,20 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Etc/UTC
       - URL=linuxserver-test.com
       - SUBDOMAINS=www,ombi
+      # - EXTRA_DOMAINS=
       - VALIDATION=http
+      - STAGING=true
     volumes:
-      - /home/aptalca/appdata/swag:/config
+      - ./config:/config
     ports:
       - 443:443
       - 80:80
     restart: unless-stopped
+    networks:
+      - app_network
+
+networks:
+  app_network
